@@ -77,12 +77,13 @@ public class UserRegistrationData implements LoanManagementInterface {
         System.out.println("2. View Loan Status");
         System.out.println("3. View Past Loan Repayment History");
         System.out.println("4. Repay Loan");
-        System.out.println("5. Logout");
-
-        System.out.print("Choose an option (1-5): ");
+        System.out.println("5. Update Profile");
+        System.out.println("6. Logout");
+    
+        System.out.print("Choose an option (1-6): ");
         int choice = scanner.nextInt();
         scanner.nextLine();
-
+    
         switch (choice) {
             case 1:
                 applyForLoan(scanner, username);
@@ -97,6 +98,9 @@ public class UserRegistrationData implements LoanManagementInterface {
                 repayLoan(scanner, username);
                 break;
             case 5:
+                updateProfile(scanner, username); 
+                break;
+            case 6:
                 System.out.println("Logging out...");
                 Choice();
                 break;
@@ -105,6 +109,58 @@ public class UserRegistrationData implements LoanManagementInterface {
                 showUserMenu(scanner, username);
         }
     }
+
+@Override
+public void updateProfile(Scanner scanner, String username){
+    UserRegistration user = userData.get(username); // Assuming userData stores users
+    if (user == null) {
+        System.out.println("User not found. Please try again.");
+        return;
+    }
+
+    System.out.println("\nUpdate Profile:");
+
+    // Update Username
+    System.out.print("Username (" + username + "): ");
+    String newUsername = scanner.nextLine();
+    if (!newUsername.isEmpty() && !newUsername.equals(username)) {
+        userData.remove(username); 
+        user.setUsername(newUsername); 
+        userData.put(newUsername, user); 
+        username = newUsername; 
+    }
+
+    
+    System.out.print("Password: ");
+    String newPassword = scanner.nextLine();
+    if (!newPassword.isEmpty()) {
+        user.setPassword(newPassword);
+    }
+
+    
+    System.out.print("Email (" + user.getEmailAddress() + "): ");
+    String newEmail = scanner.nextLine();
+    if (!newEmail.isEmpty()) {
+        user.setEmailAddress(newEmail);
+    }
+
+    
+    System.out.print("Mobile Number (" + user.getMobileNumber() + "): ");
+    String newMobile = scanner.nextLine();
+    if (!newMobile.isEmpty()) {
+        user.setMobileNumber(newMobile);
+    }
+
+    // Update Address
+    System.out.print("Address (" + user.getBankAccountNumber() + "): ");
+    String newAddress = scanner.nextLine();
+    if (!newAddress.isEmpty()) {
+        user.setBankAccountNumber(newAddress);
+    }
+
+    System.out.println("Profile updated successfully!");
+    showUserMenu(scanner, username);
+}
 
     @Override
     public void applyForLoan(Scanner scanner, String username) {

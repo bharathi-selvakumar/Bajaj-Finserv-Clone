@@ -7,4 +7,5 @@ public interface LoanManagementInterface {
     void viewLoanStatus(Scanner scanner,String username);
     void viewPastLoanRepaymentHistory(Scanner scanner,String username);
     void repayLoan(Scanner scanner, String username);
+    void updateProfile(Scanner scanner, String username);
 } 
