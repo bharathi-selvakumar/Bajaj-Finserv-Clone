@@ -79,11 +79,11 @@ public class UserRegistrationData implements LoanManagementInterface {
         System.out.println("4. Repay Loan");
         System.out.println("5. Update Profile");
         System.out.println("6. Logout");
-    
+
         System.out.print("Choose an option (1-6): ");
         int choice = scanner.nextInt();
         scanner.nextLine();
-    
+
         switch (choice) {
             case 1:
                 applyForLoan(scanner, username);
@@ -98,7 +98,7 @@ public class UserRegistrationData implements LoanManagementInterface {
                 repayLoan(scanner, username);
                 break;
             case 5:
-                updateProfile(scanner, username); 
+                updateProfile(scanner, username);
                 break;
             case 6:
                 System.out.println("Logging out...");
@@ -110,57 +110,54 @@ public class UserRegistrationData implements LoanManagementInterface {
         }
     }
 
-@Override
-public void updateProfile(Scanner scanner, String username){
-    UserRegistration user = userData.get(username); // Assuming userData stores users
-    if (user == null) {
-        System.out.println("User not found. Please try again.");
-        return;
+    @Override
+    public void updateProfile(Scanner scanner, String username) {
+        UserRegistration user = userData.get(username); // Assuming userData stores users
+        if (user == null) {
+            System.out.println("User not found. Please try again.");
+            return;
+        }
+
+        System.out.println("\nUpdate Profile:");
+
+        // Update Username
+        System.out.print("Username (" + username + "): ");
+        String newUsername = scanner.nextLine();
+        if (!newUsername.isEmpty() && !newUsername.equals(username)) {
+            userData.remove(username);
+            user.setUsername(newUsername);
+            userData.put(newUsername, user);
+            username = newUsername;
+        }
+
+        System.out.print("Password: ");
+        String newPassword = scanner.nextLine();
+        if (!newPassword.isEmpty()) {
+            user.setPassword(newPassword);
+        }
+
+        System.out.print("Email (" + user.getEmailAddress() + "): ");
+        String newEmail = scanner.nextLine();
+        if (!newEmail.isEmpty()) {
+            user.setEmailAddress(newEmail);
+        }
+
+        System.out.print("Mobile Number (" + user.getMobileNumber() + "): ");
+        String newMobile = scanner.nextLine();
+        if (!newMobile.isEmpty()) {
+            user.setMobileNumber(newMobile);
+        }
+
+        // Update Address
+        System.out.print("Address (" + user.getBankAccountNumber() + "): ");
+        String newAddress = scanner.nextLine();
+        if (!newAddress.isEmpty()) {
+            user.setBankAccountNumber(newAddress);
+        }
+
+        System.out.println("Profile updated successfully!");
+        showUserMenu(scanner, username);
     }
-
-    System.out.println("\nUpdate Profile:");
-
-    // Update Username
-    System.out.print("Username (" + username + "): ");
-    String newUsername = scanner.nextLine();
-    if (!newUsername.isEmpty() && !newUsername.equals(username)) {
-        userData.remove(username); 
-        user.setUsername(newUsername); 
-        userData.put(newUsername, user); 
-        username = newUsername; 
-    }
-
-    
-    System.out.print("Password: ");
-    String newPassword = scanner.nextLine();
-    if (!newPassword.isEmpty()) {
-        user.setPassword(newPassword);
-    }
-
-    
-    System.out.print("Email (" + user.getEmailAddress() + "): ");
-    String newEmail = scanner.nextLine();
-    if (!newEmail.isEmpty()) {
-        user.setEmailAddress(newEmail);
-    }
-
-    
-    System.out.print("Mobile Number (" + user.getMobileNumber() + "): ");
-    String newMobile = scanner.nextLine();
-    if (!newMobile.isEmpty()) {
-        user.setMobileNumber(newMobile);
-    }
-
-    // Update Address
-    System.out.print("Address (" + user.getBankAccountNumber() + "): ");
-    String newAddress = scanner.nextLine();
-    if (!newAddress.isEmpty()) {
-        user.setBankAccountNumber(newAddress);
-    }
-
-    System.out.println("Profile updated successfully!");
-    showUserMenu(scanner, username);
-}
 
     @Override
     public void applyForLoan(Scanner scanner, String username) {
@@ -307,7 +304,8 @@ public void updateProfile(Scanner scanner, String username){
             System.out.println("Your loans:");
             for (int i = 0; i < loans.size(); i++) {
                 Loan loan = loans.get(i);
-                System.out.println((i + 1) + ". Loan Type: " + loan.getLoanType() + ", Amount: ₹" + loan.getLoanAmount());
+                System.out
+                        .println((i + 1) + ". Loan Type: " + loan.getLoanType() + ", Amount: ₹" + loan.getLoanAmount());
             }
 
             System.out.print("Choose a loan to repay (1-" + loans.size() + "): ");
@@ -371,7 +369,8 @@ public void updateProfile(Scanner scanner, String username){
             System.out.print("Enter the loan amount for " + loanType + " ($" + minAmount + " to $" + maxAmount + "): ");
             loanAmount = scanner.nextDouble();
             if (loanAmount < minAmount || loanAmount > maxAmount) {
-                System.out.println("Invalid amount. Please enter a value between $" + minAmount + " and $" + maxAmount + ".");
+                System.out.println(
+                        "Invalid amount. Please enter a value between $" + minAmount + " and $" + maxAmount + ".");
             }
         } while (loanAmount < minAmount || loanAmount > maxAmount);
         return loanAmount;

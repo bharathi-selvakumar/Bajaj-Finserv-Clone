@@ -1,15 +1,21 @@
 package intern.project;
+
 import java.util.Scanner;
 
 public class Admin {
-    public static boolean Approval( Scanner scanner,Loan loan){
+    public static boolean Approval(Scanner scanner, Loan loan) {
+        UserRegistration user = new UserRegistration();
         System.out.println("Approve or Reject the loan?");
         System.out.println("Enter 'approve' to approve or 'reject' to reject:");
 
         String decision = scanner.next().toLowerCase();
 
         if (decision.equals("approve")) {
-            loan.setApproved(true); 
+            loan.setApproved(true);
+            System.out.println("Dear Customer, your loan has been successfully credited to your account at "
+                    + user.getBankName() + ". The account number is: "
+                    + user.getBankAccountNumber() + ".");
+
             return true;
         } else if (decision.equals("reject")) {
             loan.setApproved(false);
